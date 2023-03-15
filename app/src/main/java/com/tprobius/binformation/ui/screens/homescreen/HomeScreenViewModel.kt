@@ -6,20 +6,38 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tprobius.binformation.data.api.model.Binformation
 import com.tprobius.binformation.data.repository.BinformationRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class HomeScreenViewModel @Inject constructor(
     private val binformationRepository: BinformationRepository
 ) : ViewModel() {
-    private val _state = MutableLiveData<Binformation>()
-    val state: LiveData<Binformation>
-        get() = _state
+    private val _binformation = MutableLiveData<Binformation>()
+    val binformation: LiveData<Binformation>
+        get() = _binformation
 
     init {
+        getBinformation()
+    }
+
+    fun getBinformation() {
         viewModelScope.launch {
-            val binformation = binformationRepository.getBinformation()
-            _state.value = binformation
+            binformationRepository.getBinformation().let {
+                _binformation.postValue(it)
+            }
         }
     }
+
+//    private val _state = MutableLiveData<Binformation>()
+//    val state: LiveData<Binformation>
+//        get() = _state
+//
+//    init {
+//        viewModelScope.launch {
+//            val binformation = binformationRepository.getBinformation()
+//            _state.value = binformation
+//        }
+//    }
 }
