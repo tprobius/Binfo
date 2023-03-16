@@ -29,15 +29,4 @@ class HomeScreenViewModel @Inject constructor(
             }
         }
     }
-
-//    private val _state = MutableLiveData<Binformation>()
-//    val state: LiveData<Binformation>
-//        get() = _state
-//
-//    init {
-//        viewModelScope.launch {
-//            val binformation = binformationRepository.getBinformation()
-//            _state.value = binformation
-//        }
-//    }
 }
