@@ -2,21 +2,26 @@ package com.tprobius.binformation.ui.screens.homescreen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.tprobius.binformation.data.api.ApiConstants
 import com.tprobius.binformation.data.api.model.Binformation
-import com.tprobius.binformation.ui.theme.BinformationTheme
+import com.tprobius.binformation.domain.model.Bins
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -24,103 +29,172 @@ fun HomeScreen(navController: NavHostController) {
     val viewModel = hiltViewModel<HomeScreenViewModel>()
     val binformation = viewModel.binformation.observeAsState().value
 
-    Scaffold {
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-//            horizontalAlignment = Alignment.CenterHorizontally,
-//            verticalArrangement = Arrangement.Top
-        ) {
-//            Text(
-//                modifier = Modifier.padding(vertical = 8.dp),
-//                fontSize = 24.sp,
-//                fontWeight = FontWeight.Bold,
-//                text = "ADD_NEW_NOTE"
-//            )
+    val searchWidgetState by viewModel.searchWidgetState
+    val searchTextState by viewModel.searchTextState
 
-////        if (binformation != null) {
-////            Text(text = binformation.bank.name)
-////        }
-
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                value = ApiConstants.END_POINT,
-                onValueChange = {
-//                    text = it
-//                    isButtonEnable = title.isNotEmpty() && content.isNotEmpty()
+    Scaffold(
+        topBar = {
+            MainAppBar(
+                searchWidgetState = searchWidgetState,
+                searchTextState = searchTextState,
+                onTextChange = {
+                    viewModel.updateSearchTextState(newValue = it)
                 },
-                placeholder = { Text(text = "Enter card BIN") },
-//                isError = title.isEmpty()
+                onCloseClicked = {
+                    viewModel.updateSearchWidgetState(newValue = SearchWidgetState.CLOSED)
+                },
+                onSearchTriggered = {
+                    viewModel.updateSearchWidgetState(newValue = SearchWidgetState.OPENED)
+                },
+                viewModel = viewModel
             )
-            Button(
-                modifier = Modifier
-                    .padding(end = 16.dp)
-                    .align(Alignment.End),
-//                enabled = isButtonEnable,
-                colors = ButtonDefaults.buttonColors(backgroundColor = Color(254, 221, 0)),
-                onClick = {
+        }
+    ) {
+        BinDataCard(binformation = binformation)
+    }
+}
 
-                }
+@Composable
+fun MainAppBar(
+    searchWidgetState: SearchWidgetState,
+    searchTextState: String,
+    onTextChange: (String) -> Unit,
+    onCloseClicked: () -> Unit,
+    onSearchTriggered: () -> Unit,
+    viewModel: HomeScreenViewModel
+) {
+    when (searchWidgetState) {
+        SearchWidgetState.CLOSED -> {
+            DefaultAppBar(
+                onSearchClicked = onSearchTriggered
+            )
+        }
+        SearchWidgetState.OPENED -> {
+            SearchAppBar(
+                text = searchTextState,
+                onTextChange = onTextChange,
+                onCloseClicked = onCloseClicked,
+                viewModel = viewModel
+            )
+        }
+    }
+}
+
+@Composable
+fun DefaultAppBar(onSearchClicked: () -> Unit) {
+    TopAppBar(
+        title = {
+            Text(
+                text = "BInformation"
+            )
+        },
+        actions = {
+            IconButton(
+                onClick = { onSearchClicked() }
             ) {
-                Text(
-                    color = Color.White,
-                    fontSize = 16.sp,
-                    text = "CHECK"
+                Icon(
+                    imageVector = Icons.Filled.Search,
+                    contentDescription = "Search Icon",
                 )
             }
-            CardInfo(binformation)
         }
-    }
+    )
 }
 
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun CardInfo(binformation: Binformation?) {
-    Scaffold {
-        Column(
+fun SearchAppBar(
+    text: String,
+    onTextChange: (String) -> Unit,
+    onCloseClicked: () -> Unit,
+    viewModel: HomeScreenViewModel
+) {
+    val focusManager = LocalFocusManager.current
+    val maxNum = 8
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(56.dp),
+        elevation = AppBarDefaults.TopAppBarElevation,
+    ) {
+        TextField(
             modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Row {
-                OutlinedTextField(
+                .fillMaxWidth(),
+            value = text,
+            onValueChange = {
+                onTextChange(it.take(maxNum))
+                if (it.length > maxNum) {
+                    focusManager.moveFocus(FocusDirection.Down)
+                    viewModel.getBinformation(text.toInt())
+                }
+            },
+            placeholder = {
+                Text(
                     modifier = Modifier
-                        .padding(start = 16.dp, end = 2.dp)
-                        .fillMaxWidth(0.5f),
-                    value = binformation?.scheme ?: "",
-                    onValueChange = {},
-                    readOnly = true,
-                    label = {
-                        Text(
-                            text = "SCHEME/NETWORK",
-                            fontSize = 16.sp
-                        )
-                    }
+                        .alpha(ContentAlpha.medium),
+                    text = viewModel.number.value.toString(),
+//                    text = "Enter BIN gere",
                 )
-                OutlinedTextField(
+            },
+            singleLine = true,
+            leadingIcon = {
+                IconButton(
                     modifier = Modifier
-                        .padding(start = 2.dp, end = 16.dp)
-                        .fillMaxWidth(),
-                    value = binformation?.type ?: "",
-                    onValueChange = {},
-                    readOnly = true,
-                    label = {
-                        Text(
-                            text = "TYPE",
-                            fontSize = 16.sp
-                        )
+                        .alpha(ContentAlpha.medium),
+                    onClick = {}
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = "Search Icon",
+                    )
+                }
+            },
+            trailingIcon = {
+                IconButton(
+                    onClick = {
+                        if (text.isNotEmpty()) {
+                            onTextChange("")
+                        } else {
+                            onCloseClicked()
+                        }
                     }
-                )
-            }
-        }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Close,
+                        contentDescription = "Close Icon",
+                    )
+                }
+            },
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Search,
+                keyboardType = KeyboardType.Number
+            ),
+            keyboardActions = KeyboardActions(
+                onSearch = {
+                    viewModel.getBinformation(text.toInt())
+                    viewModel.insertNumber(number = Bins(number = text.toInt()))
+                }
+            ),
+            visualTransformation = InputMask(),
+        )
     }
 }
 
-@Preview(showBackground = true)
 @Composable
-fun PreviewNotesScreen() {
-    BinformationTheme() {
-        HomeScreen(navController = rememberNavController())
+fun BinDataCard(binformation: Binformation?) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize(),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
+    ) {
+        item {
+            binformation?.scheme?.let { Text(text = "SCHEME/NETWORK: ${it.capitalize()}") }
+            binformation?.brand?.let { Text(text = "BRAND: ${it}") }
+            binformation?.type?.let { Text(text = "TYPE: ${it.capitalize()}") }
+            binformation?.prepaid?.let { Text(text = "PREPAID: ${if (it) "Yes" else "No"}") }
+            binformation?.number?.let { Text(text = "CARD NUMBER:\nlength: ${it.length ?: ""}\tluhn: ${if (it.luhn == true) "Yes" else "No"}") }
+            binformation?.country?.let { Text(text = "COUNTRY: ${it.name ?: ""}\n(latitude: ${it.latitude ?: ""}, longitude: ${it.longitude ?: ""})") }
+            binformation?.bank?.let { Text(text = "BANK: ${it.name ?: ""}, ${it.city ?: ""}\n${it.url ?: ""}\n${it.phone ?: ""}") }
+        }
     }
 }

@@ -1,32 +1,91 @@
 package com.tprobius.binformation.ui.screens.homescreen
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tprobius.binformation.data.api.model.Binformation
-import com.tprobius.binformation.data.repository.BinformationRepository
+import com.tprobius.binformation.data.repository.BinformationApiRepository
+import com.tprobius.binformation.domain.model.Bins
+import com.tprobius.binformation.domain.use_cases.BinformationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
-    private val binformationRepository: BinformationRepository
+    private val binformationApiRepository: BinformationApiRepository,
+    private val binformationUseCases: BinformationUseCases
 ) : ViewModel() {
     private val _binformation = MutableLiveData<Binformation>()
     val binformation: LiveData<Binformation>
         get() = _binformation
 
+    private val _number = MutableLiveData<Int>()
+    val number: LiveData<Int>
+        get() = _number
+
     init {
-        getBinformation()
+        number.value?.let { getBinformation(it) }
     }
 
-    fun getBinformation() {
+//    fun getBinformation() {
+//        viewModelScope.launch {
+//            binformationRepository.getBinformation().let {
+//                _binformation.postValue(it)
+//            }
+//        }
+//    }
+
+//    fun updateNumber(newNumber: Int) {
+//        _number.value = newNumber
+//    }
+
+    fun getBinformation(number: Int) {
         viewModelScope.launch {
-            binformationRepository.getBinformation().let {
+            binformationApiRepository.getBinformation(number).let {
                 _binformation.postValue(it)
             }
         }
+    }
+
+    fun insertNumber(number: Bins) {
+        viewModelScope.launch(Dispatchers.IO) {
+            binformationUseCases.insertNumber(number)
+        }
+    }
+
+//    fun getNumbers(): List<Bins> {
+//        viewModelScope.launch(Dispatchers.IO) {
+//            binformationUseCases.getNumbers()
+//        }
+//    }
+
+    fun getNumber(number: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            binformationUseCases.getNumber(number)?.also { number ->
+                _number.postValue(number.number)
+            }
+        }
+    }
+
+    private val _searchWidgetState: MutableState<SearchWidgetState> =
+        mutableStateOf(value = SearchWidgetState.CLOSED)
+    val searchWidgetState: State<SearchWidgetState> = _searchWidgetState
+
+    private val _searchTextState: MutableState<String> =
+        mutableStateOf(value = "")
+    val searchTextState: State<String> = _searchTextState
+
+    fun updateSearchWidgetState(newValue: SearchWidgetState) {
+        _searchWidgetState.value = newValue
+    }
+
+    fun updateSearchTextState(newValue: String) {
+        _searchTextState.value = newValue
     }
 }
