@@ -1,8 +1,14 @@
 package com.tprobius.binformation.di
 
 import android.annotation.SuppressLint
+import android.app.Application
+import androidx.room.Room
 import com.tprobius.binformation.data.api.ApiConstants
 import com.tprobius.binformation.data.api.BinformationApi
+import com.tprobius.binformation.data.data_source.BinformationDatabase
+import com.tprobius.binformation.data.repository.BinformationDatabaseRepository
+import com.tprobius.binformation.domain.repository.BinformationRepository
+import com.tprobius.binformation.domain.use_cases.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +23,7 @@ import javax.net.ssl.*
 
 @Module
 @InstallIn(SingletonComponent::class)
-object BinformationApiModule {
+object BinformationAppModule {
     @Provides
     @Singleton
     fun provideApi(builder: Retrofit.Builder): BinformationApi {
@@ -36,6 +42,33 @@ object BinformationApiModule {
             .baseUrl(ApiConstants.BASE_URL)
             .addConverterFactory(MoshiConverterFactory.create())
             .client(client)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNoteDatabase(app: Application): BinformationDatabase {
+        return Room.databaseBuilder(
+            app,
+            BinformationDatabase::class.java,
+            BinformationDatabase.DATABASE_NAME
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNoteRepository(db: BinformationDatabase): BinformationRepository {
+        return BinformationDatabaseRepository(db.binformationDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNoteUseCases(repository: BinformationRepository): BinformationUseCases {
+        return BinformationUseCases(
+            insertNumber = InsertNumber(repository),
+            getNumbers = GetNumbers(repository),
+            getNumber = GetNumber(repository),
+            deleteNumber = DeleteNumber(repository)
+        )
     }
 }
 
