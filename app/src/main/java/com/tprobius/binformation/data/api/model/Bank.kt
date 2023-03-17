@@ -6,11 +6,11 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class Bank(
     @Json(name = "city")
-    val city: String,
+    val city: String?,
     @Json(name = "name")
-    val name: String,
+    val name: String?,
     @Json(name = "phone")
-    val phone: String,
+    val phone: String?,
     @Json(name = "url")
-    val url: String
+    val url: String?
 )

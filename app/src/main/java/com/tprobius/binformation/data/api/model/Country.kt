@@ -6,17 +6,17 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class Country(
     @Json(name = "alpha2")
-    val alpha2: String,
+    val alpha2: String?,
     @Json(name = "currency")
-    val currency: String,
+    val currency: String?,
     @Json(name = "emoji")
-    val emoji: String,
+    val emoji: String?,
     @Json(name = "latitude")
-    val latitude: Int,
+    val latitude: Int?,
     @Json(name = "longitude")
-    val longitude: Int,
+    val longitude: Int?,
     @Json(name = "name")
-    val name: String,
+    val name: String?,
     @Json(name = "numeric")
-    val numeric: String
+    val numeric: String?
 )
