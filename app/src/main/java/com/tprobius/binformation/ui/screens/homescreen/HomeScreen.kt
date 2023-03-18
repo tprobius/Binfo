@@ -1,12 +1,14 @@
 package com.tprobius.binformation.ui.screens.homescreen
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
@@ -14,6 +16,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -22,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.tprobius.binformation.data.api.model.Binformation
 import com.tprobius.binformation.domain.model.Bins
+import com.tprobius.binformation.ui.navigation.Screens
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -33,6 +37,20 @@ fun HomeScreen(navController: NavHostController) {
     val searchTextState by viewModel.searchTextState
 
     Scaffold(
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    navController.navigate(Screens.HistoryScreen.route)
+                },
+                backgroundColor = Color(0xDDFFCC00)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    tint = Color.White,
+                    contentDescription = "Add new note"
+                )
+            }
+        },
         topBar = {
             MainAppBar(
                 searchWidgetState = searchWidgetState,
@@ -131,8 +149,7 @@ fun SearchAppBar(
                 Text(
                     modifier = Modifier
                         .alpha(ContentAlpha.medium),
-                    text = viewModel.number.value.toString(),
-//                    text = "Enter BIN gere",
+                    text = "Enter BIN gere",
                 )
             },
             singleLine = true,
@@ -196,5 +213,76 @@ fun BinDataCard(binformation: Binformation?) {
             binformation?.country?.let { Text(text = "COUNTRY: ${it.name ?: ""}\n(latitude: ${it.latitude ?: ""}, longitude: ${it.longitude ?: ""})") }
             binformation?.bank?.let { Text(text = "BANK: ${it.name ?: ""}, ${it.city ?: ""}\n${it.url ?: ""}\n${it.phone ?: ""}") }
         }
+    }
+}
+
+@Composable
+fun DropDownList(
+    requestToOpen: Boolean = false,
+    list: List<String>,
+    request: (Boolean) -> Unit,
+    selectedString: (String) -> Unit
+) {
+    DropdownMenu(
+        modifier = Modifier.fillMaxWidth(),
+//        toggle = {
+//            // Implement your toggle
+//        },
+        expanded = requestToOpen,
+        onDismissRequest = { request(false) },
+    ) {
+        list.forEach {
+            DropdownMenuItem(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    request(false)
+                    selectedString(it)
+                }
+            ) {
+                Text(it)
+            }
+        }
+    }
+}
+
+@Composable
+fun CountrySelection() {
+    val countryList = listOf(
+        "United state",
+        "Australia",
+        "Japan",
+        "India",
+    )
+    val text = remember { mutableStateOf("") } // initial value
+    val isOpen = remember { mutableStateOf(false) } // initial value
+    val openCloseOfDropDownList: (Boolean) -> Unit = {
+        isOpen.value = it
+    }
+    val userSelectedString: (String) -> Unit = {
+        text.value = it
+    }
+    Box {
+        Column {
+            OutlinedTextField(
+                value = text.value,
+                onValueChange = { text.value = it },
+                label = { Text(text = "TextFieldTitle") },
+                modifier = Modifier.fillMaxWidth()
+            )
+            DropDownList(
+                requestToOpen = isOpen.value,
+                list = countryList,
+                openCloseOfDropDownList,
+                userSelectedString
+            )
+        }
+        Spacer(
+            modifier = Modifier
+                .matchParentSize()
+                .padding(10.dp)
+                .clickable(
+                    onClick = { isOpen.value = true }
+                )
+        )
     }
 }
