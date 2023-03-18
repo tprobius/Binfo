@@ -46,7 +46,7 @@ object BinformationAppModule {
 
     @Provides
     @Singleton
-    fun provideNoteDatabase(app: Application): BinformationDatabase {
+    fun provideBinformationDatabase(app: Application): BinformationDatabase {
         return Room.databaseBuilder(
             app,
             BinformationDatabase::class.java,
@@ -56,13 +56,13 @@ object BinformationAppModule {
 
     @Provides
     @Singleton
-    fun provideNoteRepository(db: BinformationDatabase): BinformationRepository {
+    fun provideBinformationRepository(db: BinformationDatabase): BinformationRepository {
         return BinformationDatabaseRepository(db.binformationDao)
     }
 
     @Provides
     @Singleton
-    fun provideNoteUseCases(repository: BinformationRepository): BinformationUseCases {
+    fun provideBinformationUseCases(repository: BinformationRepository): BinformationUseCases {
         return BinformationUseCases(
             insertNumber = InsertNumber(repository),
             getNumbers = GetNumbers(repository),
