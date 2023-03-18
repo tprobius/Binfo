@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.tprobius.binformation.ui.screens.homescreen.HomeScreen
+import com.tprobius.binformation.ui.screens.requesthistoryscreen.RequestHistoryScreen
 
 sealed class Screens(val route: String) {
     object HomeScreen : Screens(route = "home_screen")
@@ -23,7 +24,7 @@ fun SetupNavHost(navController: NavHostController) {
 
         composable(route = Screens.HistoryScreen.route)
         {
-//            HistoryScreen(navController = navController, it.arguments?.getString("id"))
+            RequestHistoryScreen(navController = navController)
         }
     }
 }
