@@ -69,7 +69,8 @@ fun HomeScreen(navController: NavHostController) {
                     BinItem(
                         bin = bins,
                         modifier = Modifier
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .padding(4.dp),
                         onDeleteClick = {
                             viewModel.onEvent(HomeScreenEvent.DeleteBin(bins))
                             scope.launch {
@@ -83,7 +84,6 @@ fun HomeScreen(navController: NavHostController) {
                             }
                         }
                     )
-                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
         }
