@@ -7,42 +7,27 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun RequestHistoryScreen(navController: NavHostController) {
 
     val viewModel = hiltViewModel<RequestHistoryScreenViewModel>()
-
     val state = viewModel.state.value
-
+    val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
 
     Scaffold(
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-//                    navController.navigate(Screens.AddEditNoteScreen.route)
-                },
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    tint = Color.White,
-                    contentDescription = "Add new note"
-                )
-            }
-        },
         scaffoldState = scaffoldState
     ) {
         Column(
@@ -72,7 +57,16 @@ fun RequestHistoryScreen(navController: NavHostController) {
 
                             },
                         onDeleteClick = {
-
+                            viewModel.onEvent(RequestHistoryEvent.DeleteNote(bins))
+                            scope.launch {
+                                val result = scaffoldState.snackbarHostState.showSnackbar(
+                                    message = "Bin deleted",
+                                    actionLabel = "Undo"
+                                )
+                                if (result == SnackbarResult.ActionPerformed) {
+                                    viewModel.onEvent(RequestHistoryEvent.RestoreNote)
+                                }
+                            }
                         }
                     )
                     Spacer(modifier = Modifier.height(16.dp))
@@ -80,6 +74,4 @@ fun RequestHistoryScreen(navController: NavHostController) {
             }
         }
     }
-
-
 }
