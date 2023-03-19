@@ -1,6 +1,6 @@
 package com.tprobius.binformation.domain.repository
 
-import com.tprobius.binformation.domain.model.Bin
+import com.tprobius.binformation.domain.entities.Bin
 import kotlinx.coroutines.flow.Flow
 
 interface BinformationRepository {

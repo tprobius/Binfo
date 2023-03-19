@@ -1,7 +1,7 @@
 package com.tprobius.binformation.data.repository
 
-import com.tprobius.binformation.data.data_source.BinformationDao
-import com.tprobius.binformation.domain.model.Bin
+import com.tprobius.binformation.data.db.BinformationDao
+import com.tprobius.binformation.domain.entities.Bin
 import com.tprobius.binformation.domain.repository.BinformationRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

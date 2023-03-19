@@ -1,7 +1,7 @@
 package com.tprobius.binformation.data.repository
 
 import com.tprobius.binformation.data.api.BinformationApi
-import com.tprobius.binformation.data.api.model.Binformation
+import com.tprobius.binformation.data.entities.Binformation
 import javax.inject.Inject
 
 class BinformationApiRepository @Inject constructor(

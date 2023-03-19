@@ -1,6 +1,6 @@
 package com.tprobius.binformation.data.api
 
-import com.tprobius.binformation.data.api.model.Binformation
+import com.tprobius.binformation.data.entities.Binformation
 import retrofit2.http.GET
 import retrofit2.http.Path
 

@@ -8,7 +8,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
-import com.tprobius.binformation.ui.navigation.SetupNavHost
+import com.tprobius.binformation.presentation.navigation.SetupNavHost
 import com.tprobius.binformation.ui.theme.BinformationTheme
 import dagger.hilt.android.AndroidEntryPoint
 
