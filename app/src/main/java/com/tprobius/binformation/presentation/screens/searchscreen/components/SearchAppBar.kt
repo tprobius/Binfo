@@ -21,6 +21,7 @@ import com.tprobius.binformation.domain.entities.Bin
 import com.tprobius.binformation.presentation.screens.homescreen.HomeScreenEvent
 import com.tprobius.binformation.presentation.screens.searchscreen.InputMask
 import com.tprobius.binformation.presentation.viewmodel.BinfoViewModel
+import com.tprobius.binformation.ui.theme.LightYellow
 
 @Composable
 fun SearchAppBar(
@@ -42,7 +43,7 @@ fun SearchAppBar(
             colors = TextFieldDefaults.textFieldColors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent,
-                backgroundColor = Color(0x81FFCC00),
+                backgroundColor = LightYellow,
                 cursorColor = Color.DarkGray
             ),
             value = text,

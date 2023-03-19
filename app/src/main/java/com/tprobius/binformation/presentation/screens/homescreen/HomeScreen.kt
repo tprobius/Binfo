@@ -19,6 +19,7 @@ import androidx.navigation.NavHostController
 import com.tprobius.binformation.presentation.navigation.Screens
 import com.tprobius.binformation.presentation.screens.searchscreen.BinItem
 import com.tprobius.binformation.presentation.viewmodel.BinfoViewModel
+import com.tprobius.binformation.ui.theme.DarkYellow
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -36,7 +37,7 @@ fun HomeScreen(navController: NavHostController) {
                 onClick = {
                     navController.navigate(Screens.SearchScreen.route)
                 },
-                backgroundColor = Color(0xDDFFCC00)
+                backgroundColor = DarkYellow
             ) {
                 Icon(
                     imageVector = Icons.Default.Search,
