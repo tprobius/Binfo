@@ -1,4 +1,4 @@
-package com.tprobius.binformation.presentation.screens.requesthistoryscreen
+package com.tprobius.binformation.presentation.screens.searchscreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tprobius.binformation.domain.entities.Bin
@@ -24,14 +25,14 @@ fun BinItem(
 ) {
     Card(
         modifier = modifier,
-        elevation = 5.dp
+        elevation = 1.dp
     ) {
         Row(
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Text(
                 modifier = Modifier
-                    .padding(bottom = 16.dp, start = 16.dp, end = 16.dp),
+                    .padding(16.dp),
                 fontSize = 16.sp,
                 maxLines = 1,
                 text = bin.number.toString()
@@ -42,7 +43,8 @@ fun BinItem(
             ) {
                 Icon(
                     imageVector = Icons.Default.Delete,
-                    contentDescription = "Delete note"
+                    contentDescription = "Delete bin",
+                    tint = Color.DarkGray
                 )
             }
         }

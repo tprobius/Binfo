@@ -20,13 +20,11 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
 
             BinformationTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
                     SetupNavHost(navController = navController)
-//                    HomeScreen(navController)
                 }
             }
         }

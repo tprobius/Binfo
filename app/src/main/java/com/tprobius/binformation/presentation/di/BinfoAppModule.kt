@@ -4,10 +4,10 @@ import android.annotation.SuppressLint
 import android.app.Application
 import androidx.room.Room
 import com.tprobius.binformation.data.api.ApiConstants
-import com.tprobius.binformation.data.api.BinformationApi
-import com.tprobius.binformation.data.db.BinformationDatabase
-import com.tprobius.binformation.data.repository.BinformationDatabaseRepository
-import com.tprobius.binformation.domain.repository.BinformationRepository
+import com.tprobius.binformation.data.api.BinfoApi
+import com.tprobius.binformation.data.db.BinfoDatabase
+import com.tprobius.binformation.data.repository.BinfoDatabaseRepository
+import com.tprobius.binformation.domain.repository.BinfoRepository
 import com.tprobius.binformation.domain.usecases.*
 import dagger.Module
 import dagger.Provides
@@ -23,13 +23,13 @@ import javax.net.ssl.*
 
 @Module
 @InstallIn(SingletonComponent::class)
-object BinformationAppModule {
+object BinfoAppModule {
     @Provides
     @Singleton
-    fun provideApi(builder: Retrofit.Builder): BinformationApi {
+    fun provideApi(builder: Retrofit.Builder): BinfoApi {
         return builder
             .build()
-            .create(BinformationApi::class.java)
+            .create(BinfoApi::class.java)
     }
 
     @Provides
@@ -46,24 +46,24 @@ object BinformationAppModule {
 
     @Provides
     @Singleton
-    fun provideBinformationDatabase(app: Application): BinformationDatabase {
+    fun provideBinfoDatabase(app: Application): BinfoDatabase {
         return Room.databaseBuilder(
             app,
-            BinformationDatabase::class.java,
-            BinformationDatabase.DATABASE_NAME
+            BinfoDatabase::class.java,
+            BinfoDatabase.DATABASE_NAME
         ).build()
     }
 
     @Provides
     @Singleton
-    fun provideBinformationRepository(db: BinformationDatabase): BinformationRepository {
-        return BinformationDatabaseRepository(db.binformationDao)
+    fun provideBinfoRepository(db: BinfoDatabase): BinfoRepository {
+        return BinfoDatabaseRepository(db.binfoDao)
     }
 
     @Provides
     @Singleton
-    fun provideBinformationUseCases(repository: BinformationRepository): BinformationUseCases {
-        return BinformationUseCases(
+    fun provideBinfoUseCases(repository: BinfoRepository): BinfoUseCases {
+        return BinfoUseCases(
             insertBin = InsertBin(repository),
             getBins = GetBins(repository),
             getBin = GetBin(repository),
@@ -72,6 +72,7 @@ object BinformationAppModule {
     }
 }
 
+//fix for ssl
 @SuppressLint("TrustAllX509TrustManager")
 private fun getUnsafeOkHttpClient(): OkHttpClient {
     val trustAllCerts = arrayOf<TrustManager>(@SuppressLint("CustomX509TrustManager")

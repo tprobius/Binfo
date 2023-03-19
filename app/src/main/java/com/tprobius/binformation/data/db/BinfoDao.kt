@@ -5,7 +5,7 @@ import com.tprobius.binformation.domain.entities.Bin
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface BinformationDao {
+interface BinfoDao {
     @Query("SELECT * FROM bin")
     fun getBins(): Flow<List<Bin>>
 

@@ -1,16 +1,15 @@
 package com.tprobius.binformation.data.repository
 
-import com.tprobius.binformation.data.db.BinformationDao
+import com.tprobius.binformation.data.db.BinfoDao
 import com.tprobius.binformation.domain.entities.Bin
-import com.tprobius.binformation.domain.repository.BinformationRepository
+import com.tprobius.binformation.domain.repository.BinfoRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 
-class BinformationDatabaseRepository @Inject constructor(
-    private val dao: BinformationDao
-) : BinformationRepository {
-
+class BinfoDatabaseRepository @Inject constructor(
+    private val dao: BinfoDao
+) : BinfoRepository {
     override fun getBins(): Flow<List<Bin>> {
         return dao.getBins()
     }

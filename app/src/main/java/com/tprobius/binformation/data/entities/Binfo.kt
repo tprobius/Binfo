@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Binformation(
+data class Binfo(
     @Json(name = "bank")
     val bank: Bank?,
     @Json(name = "brand")

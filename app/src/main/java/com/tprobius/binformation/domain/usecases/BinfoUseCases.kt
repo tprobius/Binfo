@@ -1,6 +1,6 @@
 package com.tprobius.binformation.domain.usecases
 
-data class BinformationUseCases(
+data class BinfoUseCases(
     val insertBin: InsertBin,
     val deleteBin: DeleteBin,
     val getBin: GetBin,
