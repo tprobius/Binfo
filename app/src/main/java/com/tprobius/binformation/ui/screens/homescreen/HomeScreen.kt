@@ -1,6 +1,8 @@
 package com.tprobius.binformation.ui.screens.homescreen
 
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -198,6 +201,9 @@ fun SearchAppBar(
 
 @Composable
 fun BinDataCard(binformation: Binformation?) {
+
+    val context = LocalContext.current
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
@@ -210,11 +216,48 @@ fun BinDataCard(binformation: Binformation?) {
             binformation?.type?.let { Text(text = "TYPE: ${it.capitalize()}") }
             binformation?.prepaid?.let { Text(text = "PREPAID: ${if (it) "Yes" else "No"}") }
             binformation?.number?.let { Text(text = "CARD NUMBER:\nlength: ${it.length ?: ""}\tluhn: ${if (it.luhn == true) "Yes" else "No"}") }
-            binformation?.country?.let { Text(text = "COUNTRY: ${it.name ?: ""}\n(latitude: ${it.latitude ?: ""}, longitude: ${it.longitude ?: ""})") }
+            binformation?.country?.let {
+                Text(
+                    modifier = Modifier
+                        .clickable {
+                            val mapIntent = Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("geo:${it.latitude ?: ""},${it.longitude ?: ""}")
+                            )
+                            context.startActivity(mapIntent)
+                        },
+                    text = "COUNTRY: ${it.name ?: ""}\n(latitude: ${it.latitude ?: ""}, longitude: ${it.longitude ?: ""})"
+                )
+            }
             binformation?.bank?.let { Text(text = "BANK: ${it.name ?: ""}, ${it.city ?: ""}\n${it.url ?: ""}\n${it.phone ?: ""}") }
+            binformation?.bank?.let {
+                Text(
+                    modifier = Modifier
+                        .clickable {
+                            val httpIntent = Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("http://${it.url ?: ""}")
+                            )
+                            context.startActivity(httpIntent)
+                        },
+                    text = it.url ?: ""
+                )
+            }
+            binformation?.bank?.let { Text(
+                modifier = Modifier
+                    .clickable {
+                        val telIntent = Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("tel:${it.phone ?: ""}")
+                        )
+                        context.startActivity(telIntent)
+                    },
+                text = it.phone ?: "") }
         }
     }
+
 }
+
 
 @Composable
 fun DropDownList(
@@ -242,47 +285,5 @@ fun DropDownList(
                 Text(it)
             }
         }
-    }
-}
-
-@Composable
-fun CountrySelection() {
-    val countryList = listOf(
-        "United state",
-        "Australia",
-        "Japan",
-        "India",
-    )
-    val text = remember { mutableStateOf("") } // initial value
-    val isOpen = remember { mutableStateOf(false) } // initial value
-    val openCloseOfDropDownList: (Boolean) -> Unit = {
-        isOpen.value = it
-    }
-    val userSelectedString: (String) -> Unit = {
-        text.value = it
-    }
-    Box {
-        Column {
-            OutlinedTextField(
-                value = text.value,
-                onValueChange = { text.value = it },
-                label = { Text(text = "TextFieldTitle") },
-                modifier = Modifier.fillMaxWidth()
-            )
-            DropDownList(
-                requestToOpen = isOpen.value,
-                list = countryList,
-                openCloseOfDropDownList,
-                userSelectedString
-            )
-        }
-        Spacer(
-            modifier = Modifier
-                .matchParentSize()
-                .padding(10.dp)
-                .clickable(
-                    onClick = { isOpen.value = true }
-                )
-        )
     }
 }
