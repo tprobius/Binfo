@@ -11,8 +11,8 @@ import com.tprobius.binformation.data.entities.Binfo
 import com.tprobius.binformation.data.repository.BinfoApiRepository
 import com.tprobius.binformation.domain.entities.Bin
 import com.tprobius.binformation.domain.usecases.BinfoUseCases
-import com.tprobius.binformation.presentation.screens.homescreen.BinState
-import com.tprobius.binformation.presentation.screens.homescreen.HomeScreenEvent
+import com.tprobius.binformation.presentation.screens.historyscreen.BinState
+import com.tprobius.binformation.presentation.screens.historyscreen.HistoryScreenEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
@@ -40,20 +40,15 @@ class BinfoViewModel @Inject constructor(
         getBins()
     }
 
-    fun onEvent(event: HomeScreenEvent) {
+    fun onEvent(event: HistoryScreenEvent) {
         when (event) {
-            is HomeScreenEvent.InsertBin -> {
-                viewModelScope.launch {
-                    binfoUseCases.insertBin(event.bin)
-                }
-            }
-            is HomeScreenEvent.DeleteBin -> {
+            is HistoryScreenEvent.DeleteBin -> {
                 viewModelScope.launch {
                     binfoUseCases.deleteBin(event.bin)
                     recentlyDeletedNumber = event.bin
                 }
             }
-            is HomeScreenEvent.RestoreBin -> {
+            is HistoryScreenEvent.RestoreBin -> {
                 viewModelScope.launch {
                     binfoUseCases.insertBin(recentlyDeletedNumber ?: return@launch)
                     recentlyDeletedNumber = null
@@ -78,6 +73,12 @@ class BinfoViewModel @Inject constructor(
             binfoApiRepository.getBinfo(number).let {
                 _binfo.postValue(it)
             }
+        }
+    }
+
+    fun insertBin(bin: Bin) {
+        viewModelScope.launch {
+            binfoUseCases.insertBin(bin)
         }
     }
 

@@ -1,4 +1,4 @@
-package com.tprobius.binformation.presentation.screens.searchscreen
+package com.tprobius.binformation.presentation.screens.historyscreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

@@ -1,12 +1,10 @@
-package com.tprobius.binformation.presentation.screens.homescreen
+package com.tprobius.binformation.presentation.screens.historyscreen
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,37 +13,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
-import com.tprobius.binformation.presentation.navigation.Screens
-import com.tprobius.binformation.presentation.screens.searchscreen.BinItem
 import com.tprobius.binformation.presentation.viewmodel.BinfoViewModel
-import com.tprobius.binformation.ui.theme.DarkYellow
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HistoryScreen() {
     val viewModel = hiltViewModel<BinfoViewModel>()
     val state = viewModel.state.value
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
 
     Scaffold(
-        scaffoldState = scaffoldState,
-        floatingActionButton = {
-            FloatingActionButton(
-                onClick = {
-                    navController.navigate(Screens.SearchScreen.route)
-                },
-                backgroundColor = DarkYellow
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Search,
-                    tint = Color.White,
-                    contentDescription = "Search"
-                )
-            }
-        }
+        scaffoldState = scaffoldState
     ) {
         Column(
             modifier = Modifier
@@ -73,14 +53,14 @@ fun HomeScreen(navController: NavHostController) {
                             .fillMaxWidth()
                             .padding(4.dp),
                         onDeleteClick = {
-                            viewModel.onEvent(HomeScreenEvent.DeleteBin(bins))
+                            viewModel.onEvent(HistoryScreenEvent.DeleteBin(bins))
                             scope.launch {
                                 val result = scaffoldState.snackbarHostState.showSnackbar(
                                     message = "Bin deleted",
                                     actionLabel = "Undo"
                                 )
                                 if (result == SnackbarResult.ActionPerformed) {
-                                    viewModel.onEvent(HomeScreenEvent.RestoreBin)
+                                    viewModel.onEvent(HistoryScreenEvent.RestoreBin)
                                 }
                             }
                         }

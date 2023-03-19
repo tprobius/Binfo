@@ -18,7 +18,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.tprobius.binformation.domain.entities.Bin
-import com.tprobius.binformation.presentation.screens.homescreen.HomeScreenEvent
 import com.tprobius.binformation.presentation.screens.searchscreen.InputMask
 import com.tprobius.binformation.presentation.viewmodel.BinfoViewModel
 import com.tprobius.binformation.ui.theme.LightYellow
@@ -98,7 +97,7 @@ fun SearchAppBar(
             keyboardActions = KeyboardActions(
                 onSearch = {
                     viewModel.getBinfo(text.toInt())
-                    viewModel.onEvent(HomeScreenEvent.InsertBin(bin = Bin(number = text.toInt())))
+                    viewModel.insertBin(bin = Bin(number = text.toInt()))
                 }
             ),
             visualTransformation = InputMask(),

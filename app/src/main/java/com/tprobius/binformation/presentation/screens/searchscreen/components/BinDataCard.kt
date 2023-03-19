@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.tprobius.binformation.data.entities.Binfo
@@ -48,7 +49,8 @@ private fun CardScheme(binfo: Binfo?) {
                     Locale.getDefault()
                 ) else it.toString()
             } ?: ""
-        }"
+        }",
+        color = Color.DarkGray
     )
 }
 
@@ -56,7 +58,8 @@ private fun CardScheme(binfo: Binfo?) {
 private fun CardBrand(binfo: Binfo?) {
     Spacer(modifier = Modifier.padding(4.dp))
     Text(
-        text = "BRAND: ${binfo?.brand ?: ""}"
+        text = "BRAND: ${binfo?.brand ?: ""}",
+        color = Color.DarkGray
     )
 }
 
@@ -70,7 +73,8 @@ private fun CardType(binfo: Binfo?) {
                     Locale.getDefault()
                 ) else it.toString()
             } ?: ""
-        }"
+        }",
+        color = Color.DarkGray
     )
 }
 
@@ -78,7 +82,8 @@ private fun CardType(binfo: Binfo?) {
 private fun IsPrepaid(binfo: Binfo?) {
     Spacer(modifier = Modifier.padding(4.dp))
     Text(
-        text = "PREPAID: ${binfo?.prepaid?.let { if (it) "Yes" else "No" } ?: ""}"
+        text = "PREPAID: ${binfo?.prepaid?.let { if (it) "Yes" else "No" } ?: ""}",
+        color = Color.DarkGray
     )
 }
 
@@ -88,7 +93,8 @@ private fun CardNumber(binfo: Binfo?) {
     Text(
         text = "CARD NUMBER:\n" +
                 "length: ${binfo?.number?.let { it.length ?: "" } ?: ""}\t" +
-                "luhn: ${binfo?.number?.let { if (it.luhn == true) "Yes" else "No" } ?: ""}"
+                "luhn: ${binfo?.number?.let { if (it.luhn == true) "Yes" else "No" } ?: ""}",
+        color = Color.DarkGray
     )
 }
 
@@ -112,7 +118,8 @@ private fun Country(
             },
         text = "COUNTRY: ${binfo?.country?.let { (it.name ?: "") } ?: ""}\n" +
                 "(latitude: ${binfo?.country?.let { (it.latitude ?: "") } ?: ""}, " +
-                "longitude: ${binfo?.country?.let { (it.longitude ?: "") } ?: ""})"
+                "longitude: ${binfo?.country?.let { (it.longitude ?: "") } ?: ""})",
+        color = Color.DarkGray
     )
 }
 
@@ -120,7 +127,8 @@ private fun Country(
 private fun Bank(binfo: Binfo?) {
     Spacer(modifier = Modifier.padding(4.dp))
     Text(
-        text = "BANK: ${binfo?.bank?.let { it.name ?: "" } ?: ""}"
+        text = "BANK: ${binfo?.bank?.let { it.name ?: "" } ?: ""}",
+        color = Color.DarkGray
     )
 }
 
@@ -139,7 +147,8 @@ private fun BankUrl(
                 )
                 context.startActivity(httpIntent)
             },
-        text = binfo?.bank?.let { it.url ?: "" } ?: ""
+        text = binfo?.bank?.let { it.url ?: "" } ?: "",
+        color = Color.DarkGray
     )
 }
 
@@ -158,6 +167,7 @@ private fun BankPhone(
                 )
                 context.startActivity(telIntent)
             },
-        text = binfo?.bank?.let { it.phone ?: "" } ?: ""
+        text = binfo?.bank?.let { it.phone ?: "" } ?: "",
+        color = Color.DarkGray
     )
 }

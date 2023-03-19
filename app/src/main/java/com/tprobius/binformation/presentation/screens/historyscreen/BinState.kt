@@ -1,4 +1,4 @@
-package com.tprobius.binformation.presentation.screens.homescreen
+package com.tprobius.binformation.presentation.screens.historyscreen
 
 import com.tprobius.binformation.domain.entities.Bin
 
