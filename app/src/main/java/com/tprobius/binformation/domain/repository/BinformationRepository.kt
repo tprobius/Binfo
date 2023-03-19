@@ -1,11 +1,11 @@
 package com.tprobius.binformation.domain.repository
 
-import com.tprobius.binformation.domain.model.Bins
+import com.tprobius.binformation.domain.model.Bin
 import kotlinx.coroutines.flow.Flow
 
 interface BinformationRepository {
-    fun getNumbers(): Flow<List<Bins>>
-    suspend fun getNumber(number: Int): Bins?
-    suspend fun insertNumber(number: Bins)
-    suspend fun deleteNumber(number: Bins)
+    fun getBins(): Flow<List<Bin>>
+    suspend fun getBin(number: Int): Bin?
+    suspend fun insertBin(bin: Bin)
+    suspend fun deleteBin(bin: Bin)
 }

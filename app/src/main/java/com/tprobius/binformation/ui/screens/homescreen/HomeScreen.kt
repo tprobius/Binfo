@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.tprobius.binformation.data.api.model.Binformation
-import com.tprobius.binformation.domain.model.Bins
+import com.tprobius.binformation.domain.model.Bin
 import com.tprobius.binformation.ui.navigation.Screens
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -191,7 +191,7 @@ fun SearchAppBar(
             keyboardActions = KeyboardActions(
                 onSearch = {
                     viewModel.getBinformation(text.toInt())
-                    viewModel.insertNumber(number = Bins(number = text.toInt()))
+                    viewModel.insertNumber(number = Bin(number = text.toInt()))
                 }
             ),
             visualTransformation = InputMask(),
@@ -229,7 +229,7 @@ fun BinDataCard(binformation: Binformation?) {
                     text = "COUNTRY: ${it.name ?: ""}\n(latitude: ${it.latitude ?: ""}, longitude: ${it.longitude ?: ""})"
                 )
             }
-            binformation?.bank?.let { Text(text = "BANK: ${it.name ?: ""}, ${it.city ?: ""}\n${it.url ?: ""}\n${it.phone ?: ""}") }
+            binformation?.bank?.let { Text(text = "BANK: ${it.name ?: ""}") }
             binformation?.bank?.let {
                 Text(
                     modifier = Modifier
@@ -258,5 +258,4 @@ fun BinDataCard(binformation: Binformation?) {
             }
         }
     }
-
 }

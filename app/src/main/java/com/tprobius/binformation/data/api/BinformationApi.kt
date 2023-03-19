@@ -5,9 +5,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface BinformationApi {
-//    @GET(ApiConstants.END_POINT)
-//    suspend fun getBinformation(): Binformation
-
     @GET("{number}")
     suspend fun getBinformation(
         @Path("number") number: Int

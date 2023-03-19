@@ -4,7 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tprobius.binformation.domain.model.Bins
+import com.tprobius.binformation.domain.model.Bin
 import com.tprobius.binformation.domain.use_cases.BinformationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -19,7 +19,7 @@ class RequestHistoryScreenViewModel @Inject constructor(
 ) : ViewModel() {
     private val _state = mutableStateOf(BinState())
     val state: State<BinState> = _state
-    private var recentlyDeletedNumber: Bins? = null
+    private var recentlyDeletedNumber: Bin? = null
     private var getNumbersJob: Job? = null
 
     init {
@@ -30,13 +30,13 @@ class RequestHistoryScreenViewModel @Inject constructor(
         when (event) {
             is RequestHistoryEvent.DeleteNote -> {
                 viewModelScope.launch {
-                    binformationUseCases.deleteNumber(event.bin)
+                    binformationUseCases.deleteBin(event.bin)
                     recentlyDeletedNumber = event.bin
                 }
             }
             is RequestHistoryEvent.RestoreNote -> {
                 viewModelScope.launch {
-                    binformationUseCases.insertNumber(recentlyDeletedNumber ?: return@launch)
+                    binformationUseCases.insertBin(recentlyDeletedNumber ?: return@launch)
                     recentlyDeletedNumber = null
                 }
             }
@@ -45,7 +45,7 @@ class RequestHistoryScreenViewModel @Inject constructor(
 
     private fun getNumbers() {
         getNumbersJob?.cancel()
-        getNumbersJob = binformationUseCases.getNumbers()
+        getNumbersJob = binformationUseCases.getBins()
             .onEach { bin ->
                 _state.value = state.value.copy(
                     bins = bin

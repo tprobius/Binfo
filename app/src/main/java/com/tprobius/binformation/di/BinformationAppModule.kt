@@ -64,10 +64,10 @@ object BinformationAppModule {
     @Singleton
     fun provideBinformationUseCases(repository: BinformationRepository): BinformationUseCases {
         return BinformationUseCases(
-            insertNumber = InsertNumber(repository),
-            getNumbers = GetNumbers(repository),
-            getNumber = GetNumber(repository),
-            deleteNumber = DeleteNumber(repository)
+            insertBin = InsertBin(repository),
+            getBins = GetBins(repository),
+            getBin = GetBin(repository),
+            deleteBin = DeleteBin(repository)
         )
     }
 }

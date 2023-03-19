@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tprobius.binformation.data.api.model.Binformation
 import com.tprobius.binformation.data.repository.BinformationApiRepository
-import com.tprobius.binformation.domain.model.Bins
+import com.tprobius.binformation.domain.model.Bin
 import com.tprobius.binformation.domain.use_cases.BinformationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -41,9 +41,9 @@ class HomeScreenViewModel @Inject constructor(
         }
     }
 
-    fun insertNumber(number: Bins) {
+    fun insertNumber(number: Bin) {
         viewModelScope.launch(Dispatchers.IO) {
-            binformationUseCases.insertNumber(number)
+            binformationUseCases.insertBin(number)
         }
     }
 

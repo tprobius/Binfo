@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class Bins(
+data class Bin(
     val number: Int,
     @PrimaryKey(autoGenerate = false)
     val id: Int = number
