@@ -6,7 +6,6 @@ import com.tprobius.binformation.domain.repository.BinfoRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-
 class BinfoDatabaseRepository @Inject constructor(
     private val dao: BinfoDao
 ) : BinfoRepository {
