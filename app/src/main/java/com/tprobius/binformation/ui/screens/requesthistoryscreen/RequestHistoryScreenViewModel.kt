@@ -53,6 +53,4 @@ class RequestHistoryScreenViewModel @Inject constructor(
             }
             .launchIn(viewModelScope)
     }
-
-
 }

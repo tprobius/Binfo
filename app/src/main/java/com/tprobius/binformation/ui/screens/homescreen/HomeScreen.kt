@@ -243,47 +243,20 @@ fun BinDataCard(binformation: Binformation?) {
                     text = it.url ?: ""
                 )
             }
-            binformation?.bank?.let { Text(
-                modifier = Modifier
-                    .clickable {
-                        val telIntent = Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse("tel:${it.phone ?: ""}")
-                        )
-                        context.startActivity(telIntent)
-                    },
-                text = it.phone ?: "") }
-        }
-    }
-
-}
-
-
-@Composable
-fun DropDownList(
-    requestToOpen: Boolean = false,
-    list: List<String>,
-    request: (Boolean) -> Unit,
-    selectedString: (String) -> Unit
-) {
-    DropdownMenu(
-        modifier = Modifier.fillMaxWidth(),
-//        toggle = {
-//            // Implement your toggle
-//        },
-        expanded = requestToOpen,
-        onDismissRequest = { request(false) },
-    ) {
-        list.forEach {
-            DropdownMenuItem(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = {
-                    request(false)
-                    selectedString(it)
-                }
-            ) {
-                Text(it)
+            binformation?.bank?.let {
+                Text(
+                    modifier = Modifier
+                        .clickable {
+                            val telIntent = Intent(
+                                Intent.ACTION_VIEW,
+                                Uri.parse("tel:${it.phone ?: ""}")
+                            )
+                            context.startActivity(telIntent)
+                        },
+                    text = it.phone ?: ""
+                )
             }
         }
     }
+
 }

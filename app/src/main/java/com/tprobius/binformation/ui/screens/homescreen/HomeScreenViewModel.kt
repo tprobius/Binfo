@@ -33,18 +33,6 @@ class HomeScreenViewModel @Inject constructor(
         number.value?.let { getBinformation(it) }
     }
 
-//    fun getBinformation() {
-//        viewModelScope.launch {
-//            binformationRepository.getBinformation().let {
-//                _binformation.postValue(it)
-//            }
-//        }
-//    }
-
-//    fun updateNumber(newNumber: Int) {
-//        _number.value = newNumber
-//    }
-
     fun getBinformation(number: Int) {
         viewModelScope.launch {
             binformationApiRepository.getBinformation(number).let {
@@ -56,20 +44,6 @@ class HomeScreenViewModel @Inject constructor(
     fun insertNumber(number: Bins) {
         viewModelScope.launch(Dispatchers.IO) {
             binformationUseCases.insertNumber(number)
-        }
-    }
-
-//    fun getNumbers(): List<Bins> {
-//        viewModelScope.launch(Dispatchers.IO) {
-//            binformationUseCases.getNumbers()
-//        }
-//    }
-
-    fun getNumber(number: Int) {
-        viewModelScope.launch(Dispatchers.IO) {
-            binformationUseCases.getNumber(number)?.also { number ->
-                _number.postValue(number.number)
-            }
         }
     }
 
