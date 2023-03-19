@@ -11,6 +11,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
@@ -48,9 +49,9 @@ fun HomeScreen(navController: NavHostController) {
                 backgroundColor = Color(0xDDFFCC00)
             ) {
                 Icon(
-                    imageVector = Icons.Default.Add,
+                    imageVector = Icons.Default.Archive,
                     tint = Color.White,
-                    contentDescription = "Add new note"
+                    contentDescription = "Request history"
                 )
             }
         },

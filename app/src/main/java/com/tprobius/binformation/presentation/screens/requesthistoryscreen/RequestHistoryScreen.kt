@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.tprobius.binformation.presentation.navigation.Screens
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -54,7 +55,7 @@ fun RequestHistoryScreen(navController: NavHostController) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-
+                                navController.navigate(Screens.HomeScreen.route)
                             },
                         onDeleteClick = {
                             viewModel.onEvent(RequestHistoryEvent.DeleteNote(bins))
