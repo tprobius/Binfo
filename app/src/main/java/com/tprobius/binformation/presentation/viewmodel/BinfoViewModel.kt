@@ -32,10 +32,6 @@ class BinfoViewModel @Inject constructor(
     val binfo: LiveData<Binfo>
         get() = _binfo
 
-    private val _noData = MutableLiveData<String>()
-    val noData: LiveData<String>
-        get() = _noData
-
     private val _state = mutableStateOf(BinState())
     val state: State<BinState> = _state
 
@@ -77,11 +73,9 @@ class BinfoViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 binfoApiRepository.getBinfo(number).let {
-                    _noData.postValue(null)
                     _binfo.postValue(it)
                 }
             } catch (e: HttpException) {
-                _noData.postValue("No data found")
             }
         }
     }

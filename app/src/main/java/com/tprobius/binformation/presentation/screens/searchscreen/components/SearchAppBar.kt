@@ -96,8 +96,10 @@ fun SearchAppBar(
             ),
             keyboardActions = KeyboardActions(
                 onSearch = {
-                    viewModel.getBinfo(text.toInt())
-                    viewModel.insertBin(bin = Bin(number = text.toInt()))
+                    if (text.isNotEmpty()) {
+                        viewModel.getBinfo(text.toInt())
+                        viewModel.insertBin(bin = Bin(number = text.toInt()))
+                    }
                 }
             ),
             visualTransformation = InputMask(),
