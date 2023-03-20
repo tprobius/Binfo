@@ -2,6 +2,7 @@ package com.tprobius.binformation.presentation.screens.searchscreen.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -58,13 +59,14 @@ fun SearchAppBar(
                     modifier = Modifier
                         .alpha(ContentAlpha.medium),
                     color = Color.DarkGray,
-                    text = "Enter BIN here",
+                    text = "Enter card BIN here",
                 )
             },
             singleLine = true,
             leadingIcon = {
                 IconButton(
                     modifier = Modifier
+                        .padding(start = 8.dp)
                         .alpha(ContentAlpha.medium),
                     onClick = {}
                 ) {
@@ -77,6 +79,8 @@ fun SearchAppBar(
             },
             trailingIcon = {
                 IconButton(
+                    modifier = Modifier
+                        .padding(end = 8.dp),
                     onClick = {
                         if (text.isNotEmpty()) {
                             onTextChange("")

@@ -18,11 +18,13 @@ import java.util.*
 @Composable
 fun BinDataCard(binfo: Binfo?) {
     val context = LocalContext.current
-
     LazyColumn(
         modifier = Modifier
             .fillMaxSize(),
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+        contentPadding = PaddingValues(
+            horizontal = 20.dp,
+            vertical = 8.dp
+        ),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         item {
