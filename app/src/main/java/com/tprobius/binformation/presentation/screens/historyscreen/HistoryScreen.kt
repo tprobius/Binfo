@@ -40,7 +40,7 @@ fun HistoryScreen() {
                 Text(
                     text = "Request history",
                     color = Color.DarkGray,
-                    fontSize = 32.sp,
+                    fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
