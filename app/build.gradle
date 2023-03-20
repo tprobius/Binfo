@@ -63,8 +63,6 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-test-manifest:1.3.3"
     implementation "androidx.compose.material:material-icons-extended:1.3.1"
     implementation "androidx.compose.runtime:runtime-livedata:1.3.3"
-
-    // Compose
     implementation "androidx.navigation:navigation-compose:2.6.0-alpha04"
     implementation "androidx.compose.material:material:1.3.1"
     implementation "androidx.hilt:hilt-navigation-compose:1.1.0-alpha01"
