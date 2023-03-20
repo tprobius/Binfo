@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.tprobius.binformation.presentation.navigation.Screens
@@ -24,6 +25,9 @@ fun SearchScreen(navController: NavHostController) {
     val viewModel = hiltViewModel<BinfoViewModel>()
     val searchTextState by viewModel.searchTextState
     val binfo = viewModel.binfo.observeAsState().value
+    val noData = viewModel.noData.observeAsState().value
+
+    val context = LocalContext.current
 
     Scaffold(floatingActionButton = {
         FloatingActionButton(
@@ -45,9 +49,10 @@ fun SearchScreen(navController: NavHostController) {
                 onTextChange = {
                     viewModel.updateSearchTextState(newValue = it)
                 },
-                viewModel = viewModel
+                viewModel = viewModel,
+                context = context,
+                noData = noData
             )
-
         }
     ) {
         BinDataCard(binfo = binfo)

@@ -1,5 +1,7 @@
 package com.tprobius.binformation.presentation.screens.searchscreen.components
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardActions
@@ -26,7 +28,9 @@ import com.tprobius.binformation.ui.theme.LightYellow
 fun SearchAppBar(
     text: String,
     onTextChange: (String) -> Unit,
-    viewModel: BinfoViewModel
+    viewModel: BinfoViewModel,
+    context: Context,
+    noData: String?
 ) {
     val focusManager = LocalFocusManager.current
     val maxNum = 8
@@ -97,6 +101,10 @@ fun SearchAppBar(
             keyboardActions = KeyboardActions(
                 onSearch = {
                     viewModel.getBinfo(text.toInt())
+
+                    if (noData != null)
+                        Toast.makeText(context, noData, Toast.LENGTH_SHORT).show()
+
                     viewModel.insertBin(bin = Bin(number = text.toInt()))
                 }
             ),

@@ -18,6 +18,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,6 +31,10 @@ class BinfoViewModel @Inject constructor(
     private val _binfo = MutableLiveData<Binfo>()
     val binfo: LiveData<Binfo>
         get() = _binfo
+
+    private val _noData = MutableLiveData<String>()
+    val noData: LiveData<String>
+        get() = _noData
 
     private val _state = mutableStateOf(BinState())
     val state: State<BinState> = _state
@@ -70,8 +75,13 @@ class BinfoViewModel @Inject constructor(
 
     fun getBinfo(number: Int) {
         viewModelScope.launch {
-            binfoApiRepository.getBinfo(number).let {
-                _binfo.postValue(it)
+            try {
+                binfoApiRepository.getBinfo(number).let {
+                    _noData.postValue(null)
+                    _binfo.postValue(it)
+                }
+            } catch (e: HttpException) {
+                _noData.postValue("No data found")
             }
         }
     }
