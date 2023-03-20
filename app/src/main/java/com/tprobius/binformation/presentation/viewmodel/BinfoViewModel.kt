@@ -80,6 +80,14 @@ class BinfoViewModel @Inject constructor(
         }
     }
 
+    fun getBinfo(bin: Bin?) {
+        if (bin != null) {
+            getBinfo(bin.number)
+        } else {
+            _binfo.postValue(null)
+        }
+    }
+
     fun insertBin(bin: Bin) {
         viewModelScope.launch {
             binfoUseCases.insertBin(bin)

@@ -80,12 +80,13 @@ fun SearchAppBar(
                     onClick = {
                         if (text.isNotEmpty()) {
                             onTextChange("")
+                            viewModel.getBinfo(bin = null)
                         }
                     }
                 ) {
                     Icon(
                         imageVector = Icons.Default.Close,
-                        contentDescription = "Close Icon",
+                        contentDescription = "Clear",
                         tint = Color.DarkGray
                     )
                 }
