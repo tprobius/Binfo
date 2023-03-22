@@ -52,7 +52,9 @@ fun SearchAppBar(
                 onTextChange(it.take(maxNum))
                 if (it.length > maxNum) {
                     focusManager.moveFocus(FocusDirection.Down)
-                    viewModel.getBinfo(text.toInt())
+                    try {
+                        viewModel.getBinfo(text.toInt())
+                    } catch (e: NumberFormatException) { }
                 }
             },
             placeholder = {
