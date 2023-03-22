@@ -35,6 +35,7 @@ fun SearchAppBar(
         modifier = Modifier
             .fillMaxWidth()
             .height(56.dp),
+        color = Color.Transparent,
         elevation = AppBarDefaults.TopAppBarElevation,
     ) {
         TextField(
@@ -102,8 +103,10 @@ fun SearchAppBar(
             keyboardActions = KeyboardActions(
                 onSearch = {
                     if (text.isNotEmpty()) {
-                        viewModel.getBinfo(text.toInt())
-                        viewModel.insertBin(bin = Bin(number = text.toInt()))
+                        try {
+                            viewModel.getBinfo(text.toInt())
+                            viewModel.insertBin(bin = Bin(number = text.toInt()))
+                        } catch (e: NumberFormatException) { }
                     }
                 }
             ),
