@@ -20,14 +20,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.tprobius.binformation.domain.entities.Bin
 import com.tprobius.binformation.presentation.screens.searchscreen.InputMask
-import com.tprobius.binformation.presentation.viewmodel.BinfoViewModel
+import com.tprobius.binformation.presentation.screens.searchscreen.SearchScreenViewModel
 import com.tprobius.binformation.ui.theme.LightYellow
 
 @Composable
 fun SearchAppBar(
     text: String,
     onTextChange: (String) -> Unit,
-    viewModel: BinfoViewModel
+    viewModel: SearchScreenViewModel
 ) {
     val focusManager = LocalFocusManager.current
     val maxNum = 8
@@ -54,7 +54,8 @@ fun SearchAppBar(
                     focusManager.moveFocus(FocusDirection.Down)
                     try {
                         viewModel.getBinfo(text.toInt())
-                    } catch (e: NumberFormatException) { }
+                    } catch (e: NumberFormatException) {
+                    }
                 }
             },
             placeholder = {
@@ -108,7 +109,8 @@ fun SearchAppBar(
                         try {
                             viewModel.getBinfo(text.toInt())
                             viewModel.insertBin(bin = Bin(number = text.toInt()))
-                        } catch (e: NumberFormatException) { }
+                        } catch (e: NumberFormatException) {
+                        }
                     }
                 }
             ),

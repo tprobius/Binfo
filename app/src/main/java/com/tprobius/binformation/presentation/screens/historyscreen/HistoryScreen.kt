@@ -13,13 +13,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.tprobius.binformation.presentation.viewmodel.BinfoViewModel
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun HistoryScreen() {
-    val viewModel = hiltViewModel<BinfoViewModel>()
+    val viewModel = hiltViewModel<HistoryScreenViewModel>()
     val state = viewModel.state.value
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
