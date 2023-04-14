@@ -2,12 +2,11 @@ package com.tprobius.binformation.data.db
 
 import androidx.room.*
 import com.tprobius.binformation.domain.entities.Bin
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface BinfoDao {
     @Query("SELECT * FROM bin")
-    fun getBins(): Flow<List<Bin>>
+    fun getBins(): List<Bin>
 
     @Query("SELECT * FROM bin WHERE number = :number")
     suspend fun getBin(number: Int): Bin?

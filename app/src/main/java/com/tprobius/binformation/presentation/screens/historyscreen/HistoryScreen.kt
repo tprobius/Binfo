@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -19,7 +20,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun HistoryScreen() {
     val viewModel = hiltViewModel<HistoryScreenViewModel>()
-    val state = viewModel.state.value
+//    val state = viewModel.state.value
+    val bins = viewModel.bins.observeAsState(listOf()).value
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
 
@@ -45,7 +47,7 @@ fun HistoryScreen() {
             }
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn(modifier = Modifier.fillMaxSize()) {
-                items(state.bins) { bins ->
+                items(bins) { bins ->
                     BinItem(
                         bin = bins,
                         modifier = Modifier

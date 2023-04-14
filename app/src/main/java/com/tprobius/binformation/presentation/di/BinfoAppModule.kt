@@ -51,7 +51,9 @@ object BinfoAppModule {
             app,
             BinfoDatabase::class.java,
             BinfoDatabase.DATABASE_NAME
-        ).build()
+        )
+            .allowMainThreadQueries() // is not recommended
+            .build()
     }
 
     @Provides
