@@ -9,6 +9,7 @@
 #### Tech stack:
 
 - Kotlin
+- Clean Architecture
 - Jetpack Compose
 - Coroutine
 - Dagger / Hilt
