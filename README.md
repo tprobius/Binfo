@@ -5,3 +5,13 @@
 - emitting bank
 - bank URL
 - bank phone number
+
+#### Tech stack:
+
+- Kotlin
+- Jetpack Compose
+- Coroutine
+- Dagger / Hilt
+- Room
+- Retrofit
+- Moshi
