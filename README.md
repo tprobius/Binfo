@@ -10,6 +10,7 @@
 
 - Kotlin
 - Clean Architecture
+- MVVM
 - Jetpack Compose
 - Coroutine
 - Dagger / Hilt
