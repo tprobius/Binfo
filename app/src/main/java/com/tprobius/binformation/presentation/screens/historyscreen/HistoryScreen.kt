@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.tprobius.binformation.presentation.screens.historyscreen.components.BinItem
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -39,7 +40,7 @@ fun HistoryScreen() {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Request history",
+                    text = "История запросов",
                     color = Color.DarkGray,
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold

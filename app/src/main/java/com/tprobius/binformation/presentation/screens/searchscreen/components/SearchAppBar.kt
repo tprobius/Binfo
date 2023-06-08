@@ -63,7 +63,7 @@ fun SearchAppBar(
                     modifier = Modifier
                         .alpha(ContentAlpha.medium),
                     color = Color.DarkGray,
-                    text = "Enter card BIN here",
+                    text = "Введите BIN карты",
                 )
             },
             singleLine = true,
