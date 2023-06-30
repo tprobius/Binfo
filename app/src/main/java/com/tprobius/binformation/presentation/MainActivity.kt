@@ -1,4 +1,4 @@
-package com.tprobius.binformation
+package com.tprobius.binformation.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
