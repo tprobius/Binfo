@@ -1,4 +1,4 @@
-package com.tprobius.binformation.presentation.di
+package com.tprobius.binformation.di
 
 import android.annotation.SuppressLint
 import android.app.Application
