@@ -49,6 +49,4 @@ fun BinItem(
             }
         }
     }
-
-
 }

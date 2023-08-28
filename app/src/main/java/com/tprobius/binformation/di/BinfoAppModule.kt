@@ -63,13 +63,26 @@ object BinfoAppModule {
 
     @Provides
     @Singleton
-    fun provideBinfoUseCases(repository: BinfoRepository): BinfoUseCases {
-        return BinfoUseCases(
-            insertBin = InsertBin(repository),
-            getBins = GetBins(repository),
-            getBin = GetBin(repository),
-            deleteBin = DeleteBin(repository)
-        )
+    fun provideDeleteBinUseCase(repository: BinfoRepository): DeleteBin {
+        return DeleteBin(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetBinUseCase(repository: BinfoRepository): GetBin {
+        return GetBin(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGetBinsUseCase(repository: BinfoRepository): GetBins {
+        return GetBins(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideInsertBinUseCase(repository: BinfoRepository): InsertBin {
+        return InsertBin(repository)
     }
 }
 

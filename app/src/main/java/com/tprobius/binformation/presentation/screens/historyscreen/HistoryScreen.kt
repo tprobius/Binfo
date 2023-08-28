@@ -21,7 +21,6 @@ import kotlinx.coroutines.launch
 @Composable
 fun HistoryScreen() {
     val viewModel = hiltViewModel<HistoryScreenViewModel>()
-//    val state = viewModel.state.value
     val bins = viewModel.bins.observeAsState(listOf()).value
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()

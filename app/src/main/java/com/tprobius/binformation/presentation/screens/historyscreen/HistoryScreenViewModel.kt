@@ -5,19 +5,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tprobius.binformation.domain.entities.Bin
-import com.tprobius.binformation.domain.usecases.BinfoUseCases
+import com.tprobius.binformation.domain.usecases.DeleteBin
+import com.tprobius.binformation.domain.usecases.GetBins
+import com.tprobius.binformation.domain.usecases.InsertBin
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class HistoryScreenViewModel @Inject constructor(
-    private val binfoUseCases: BinfoUseCases
+    private val getBinsUseCase: GetBins,
+    private val deleteBinUseCase: DeleteBin,
+    private val insertBinUseCase: InsertBin
 ) : ViewModel() {
-    //    private var getNumbersJob: Job? = null
     private var recentlyDeletedNumber: Bin? = null
-//    private val _state = mutableStateOf(BinState())
-//    val state: State<BinState> = _state
 
     private val _bins = MutableLiveData<List<Bin>>()
     val bins: LiveData<List<Bin>> = _bins
@@ -26,36 +27,25 @@ class HistoryScreenViewModel @Inject constructor(
         getBins()
     }
 
-    fun getBins() {
+    private fun getBins() {
         viewModelScope.launch {
-            binfoUseCases.getBins().let {
+            getBinsUseCase().let {
                 _bins.postValue(it)
             }
         }
     }
 
-//    private fun getBins() {
-//        getNumbersJob?.cancel()
-//        getNumbersJob = binfoUseCases.getBins()
-//            .onEach { bin ->
-//                _state.value = state.value.copy(
-//                    bins = bin
-//                )
-//            }
-//            .launchIn(viewModelScope)
-//    }
-
     fun onEvent(event: HistoryScreenEvent) {
         when (event) {
             is HistoryScreenEvent.DeleteBin -> {
                 viewModelScope.launch {
-                    binfoUseCases.deleteBin(event.bin)
+                    deleteBinUseCase(event.bin)
                     recentlyDeletedNumber = event.bin
                 }
             }
             is HistoryScreenEvent.RestoreBin -> {
                 viewModelScope.launch {
-                    binfoUseCases.insertBin(recentlyDeletedNumber ?: return@launch)
+                    insertBinUseCase(recentlyDeletedNumber ?: return@launch)
                     recentlyDeletedNumber = null
                 }
             }

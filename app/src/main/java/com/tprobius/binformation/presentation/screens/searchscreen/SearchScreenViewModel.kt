@@ -10,7 +10,7 @@ import androidx.lifecycle.viewModelScope
 import com.tprobius.binformation.data.entities.Binfo
 import com.tprobius.binformation.data.repository.BinfoApiRepository
 import com.tprobius.binformation.domain.entities.Bin
-import com.tprobius.binformation.domain.usecases.BinfoUseCases
+import com.tprobius.binformation.domain.usecases.InsertBin
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchScreenViewModel @Inject constructor(
     private val binfoApiRepository: BinfoApiRepository,
-    private val binfoUseCases: BinfoUseCases
+    private val insertBinUseCase: InsertBin
 ) : ViewModel() {
     private val _binfo = MutableLiveData<Binfo>()
     val binfo: LiveData<Binfo>
@@ -32,6 +32,7 @@ class SearchScreenViewModel @Inject constructor(
                     _binfo.postValue(it)
                 }
             } catch (e: HttpException) {
+                e.message()
             }
         }
     }
@@ -46,7 +47,7 @@ class SearchScreenViewModel @Inject constructor(
 
     fun insertBin(bin: Bin) {
         viewModelScope.launch {
-            binfoUseCases.insertBin(bin)
+            insertBinUseCase(bin)
         }
     }
 
