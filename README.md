@@ -1,6 +1,6 @@
 # Binfo
 
-#### Стэк:
+#### Стек:
 
 - Kotlin
 - Clean Architecture
