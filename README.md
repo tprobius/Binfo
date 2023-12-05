@@ -6,7 +6,7 @@
 - Clean Architecture
 - MVVM
 - Jetpack Compose
-- Coroutine
+- Coroutines
 - Dagger / Hilt
 - Room
 - Retrofit
